@@ -119,8 +119,6 @@ const Hero = () => {
                                     id='current-video'
                                     className='size-64 origin-center scale-150 object-cover object-center'
                                     onLoadedData={() => markVideoReady('current')}
-                                    onLoadedData={() => markVideoReady('next')} 
-                                    onLoadedData={() => markVideoReady('bg')}
                                     />
                             </div>
                         </VideoPreview>
