@@ -17,17 +17,26 @@ const Hero = () => {
     const [loadedVideos, setLoadedVideos] = useState(0);
 
     const totalVideos = 4;
+    const requiredVideos = 3;
     const nextVdRef = useRef(null);
+    const loadedKeysRef = useRef(new Set());
 
-    const handleVideoLoad = () => {
+    const markVideoReady = (key) => {
+        if(loadedKeysRef.current.has(key)) return;
+        loadedKeysRef.current.add(key);
         setLoadedVideos((prev) => prev + 1);
     };
 
     useEffect(() => {
-      if (loadedVideos === 3) {
+      if (loadedVideos >= requiredVideos) {
         setIsLoading(false);
       }
-    }, [loadedVideos, totalVideos]);
+    }, [loadedVideos]);
+
+    useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 10000);
+    return () => clearTimeout(timer);
+    }, []);
 
     const handleMiniVdClick = () => {
         setHasClicked(true);
@@ -82,7 +91,7 @@ const Hero = () => {
         });
     });
 
-    const getVideoSrc = (index) => `/videos/hero-${index}.mp4`
+    const getVideoSrc = (index) => `${import.meta.env.BASE_URL}videos/hero-${index}.mp4`
 
     return (
         <div className="relative h-dvh w-screen overflow-x-hidden">
@@ -109,7 +118,10 @@ const Hero = () => {
                                     muted
                                     id='current-video'
                                     className='size-64 origin-center scale-150 object-cover object-center'
-                                    onLoadedData={handleVideoLoad} />
+                                    onLoadedData={() => markVideoReady('current')}
+                                    onLoadedData={() => markVideoReady('next')} 
+                                    onLoadedData={() => markVideoReady('bg')}
+                                    />
                             </div>
                         </VideoPreview>
                     </div>
@@ -122,7 +134,7 @@ const Hero = () => {
                         muted
                         id='next-video'
                         className='absolute-center absolute z-20 size-64 object-cover object-center opacity-0'
-                        onLoadedData={handleVideoLoad} />
+                        onLoadedData={() => markVideoReady('next')} />
 
                     <video
                         src={getVideoSrc(1)}
@@ -130,7 +142,7 @@ const Hero = () => {
                         loop
                         muted
                         className='absolute left-0 top-0 size-full object-cover object-center'
-                        onLoadedData={handleVideoLoad}
+                        onLoadedData={()=>markVideoReady('background')}
                     />
                 </div>
                 <h1 className='special-font hero-heading absolute bottom-5 right-5 z-40 text-blue-75'>G<b>a</b>ming</h1>
