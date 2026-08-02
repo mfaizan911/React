@@ -73,7 +73,7 @@ body {
   }
 
   .about-subtext {
-    @apply absolute bottom-[-80dvh] left-1/2 w-full max-w-96 -translate-x-1/2 text-center font-circular-web text-lg md:max-w-[34rem];
+    @apply absolute lg:bottom-[-80dvh] bottom-[-88dvh] left-1/2 w-full max-w-96 -translate-x-1/2 text-center font-circular-web text-lg md:max-w-[38rem];
   }
 
   .about-image {
@@ -167,8 +167,6 @@ body {
   }
 }
 
-/* From Uiverse.io by G4b413l */
-/* https://uiverse.io/G4b413l/tidy-walrus-92 */
 .three-body {
   --uib-size: 35px;
   --uib-speed: 0.8s;
